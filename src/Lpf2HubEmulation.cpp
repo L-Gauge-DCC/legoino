@@ -195,8 +195,10 @@ public:
 
         if (msgReceived[(byte)PortOutputMessage::SUB_COMMAND] == 0x51) //OUT_PORT_CMD_WRITE_DIRECT
         {
+          log_d("Port: %02x, Value %02x", msgReceived[(byte)PortOutputMessage::PORT_ID], msgReceived[0x07]);
           if (_lpf2HubEmulation->writePortCallback != nullptr)
           {
+            log_d("Port: %02x, Value %02x", msgReceived[(byte)PortOutputMessage::PORT_ID], msgReceived[0x07]);
             _lpf2HubEmulation->writePortCallback(msgReceived[(byte)PortOutputMessage::PORT_ID], msgReceived[0x07]); //WRITE_DIRECT_VALUE
           }
         }
@@ -245,7 +247,7 @@ void Lpf2HubEmulation::attachDevice(byte port, DeviceType deviceType)
   payload.append(versionInformation); //version numbers
   writeValue(MessageType::HUB_ATTACHED_IO, payload);
 
-  Device newDevice = {port, (byte)deviceType};
+  PortDevice newDevice = {port, (byte)deviceType};
   connectedDevices[numberOfConnectedDevices] = newDevice;
   numberOfConnectedDevices++;
 }
@@ -390,7 +392,7 @@ void Lpf2HubEmulation::start()
   log_d("Starting BLE");
 
   NimBLEDevice::init(_hubName);
-  NimBLEDevice::setPower(ESP_PWR_LVL_N0, ESP_BLE_PWR_TYPE_ADV); // 0dB, Advertisment
+  NimBLEDevice::setPower(ESP_PWR_LVL_P9, ESP_BLE_PWR_TYPE_ADV); // 9dB, Advertisment
 
   log_d("Create server");
   _pServer = NimBLEDevice::createServer();
@@ -448,6 +450,7 @@ void Lpf2HubEmulation::start()
   // set the advertisment flags to 0x06
   scanResponseData.setFlags(BLE_HS_ADV_F_DISC_GEN);
   // set the power level to 0dB
+  // TODO: Change to 9dB?
   scanResponseData.addData(std::string{0x02, 0x0A, 0x00});
   // set the slave connection interval range to 20-40ms
   scanResponseData.addData(std::string{0x05, 0x12, 0x10, 0x00, 0x20, 0x00});

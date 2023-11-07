@@ -47,6 +47,7 @@ public:
     {
         _lpf2Hub->_isConnecting = false;
         _lpf2Hub->_isConnected = false;
+        _lpf2Hub->deregisterPortDevices();
         log_d("disconnected client");
     }
 };
@@ -168,6 +169,11 @@ void Lpf2Hub::deregisterPortDevice(byte portNumber)
     {
         numberOfConnectedDevices--;
     }
+}
+
+void Lpf2Hub::deregisterPortDevices()
+{
+    numberOfConnectedDevices = 0;
 }
 
 /**
@@ -769,6 +775,7 @@ void Lpf2Hub::notifyCallback(
     size_t length,
     bool isNotify)
 {
+    log_d("heap free size: %i\n", heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT));
     log_d("notify callback for characteristic %s", pBLERemoteCharacteristic->getUUID().toString().c_str());
 
     switch (pData[2])
@@ -794,6 +801,7 @@ void Lpf2Hub::notifyCallback(
         break;
     }
     }
+    log_d("heap free size: %i\n", heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT));
 }
 
 /**
@@ -1159,6 +1167,7 @@ bool Lpf2Hub::connectHub()
     // add callback instance to get notified if a disconnect event appears
     pClient->setClientCallbacks(new Lpf2HubClientCallback(this));
 
+    pBLEScan->clearResults();
     // Set states
     _isConnected = true;
     _isConnecting = false;

@@ -19,7 +19,8 @@
 using namespace std::placeholders;
 
 typedef void (*HubPropertyChangeCallback)(void *hub, HubPropertyReference hubProperty, uint8_t *pData);
-typedef void (*PortValueChangeCallback)(void *hub, byte portNumber, DeviceType deviceType, uint8_t *pData);
+// typedef void (*PortValueChangeCallback)(void *hub, byte portNumber, DeviceType deviceType, uint8_t *pData);
+typedef std::function<void (void *hub, byte portNumber, DeviceType deviceType, uint8_t *pData)> PortValueChangeCallback;
 
 struct Device
 {
@@ -62,6 +63,7 @@ public:
   byte getModeForDeviceType(byte deviceType);
   void registerPortDevice(byte portNumber, byte deviceType);
   void deregisterPortDevice(byte portNumber);
+  void deregisterPortDevices();
   void activatePortDevice(byte portNumber, byte deviceType, PortValueChangeCallback portValueChangeCallback = nullptr);
   void activatePortDevice(byte portNumber, PortValueChangeCallback portValueChangeCallback = nullptr);
   void deactivatePortDevice(byte portNumber, byte deviceType);

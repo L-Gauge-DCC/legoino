@@ -20,9 +20,10 @@
 #include <NimBLEDevice.h>
 #include "Lpf2HubConst.h"
 
-typedef void (*WritePortCallback)(byte port, byte value);
+// typedef void (*WritePortCallback)(byte port, byte value);
+typedef std::function<void (byte port, byte value)> WritePortCallback;
 
-struct Device
+struct PortDevice
 {
   byte PortNumber;
   byte DeviceType;
@@ -50,7 +51,7 @@ private:
   Version _hardwareVersion;
 
     // List of connected devices
-  Device connectedDevices[13];
+  PortDevice connectedDevices[13];
   int numberOfConnectedDevices = 0;
 
 public:
