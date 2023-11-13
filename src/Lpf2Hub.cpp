@@ -821,8 +821,12 @@ void Lpf2Hub::init()
     _hubType = HubType::UNKNOWNHUB;
 
     BLEDevice::init("");
+    NimBLEDevice::setPower(ESP_PWR_LVL_P9, ESP_BLE_PWR_TYPE_ADV);
+    NimBLEDevice::setPower(ESP_PWR_LVL_P9, ESP_BLE_PWR_TYPE_SCAN);
+    NimBLEDevice::setPower(ESP_PWR_LVL_P9, ESP_BLE_PWR_TYPE_DEFAULT); // 9dB, Advertisment
+    
     pBLEScan = BLEDevice::getScan();
-
+    
     pBLEScan->setAdvertisedDeviceCallbacks(new Lpf2HubAdvertisedDeviceCallbacks(this));
 
     pBLEScan->setActiveScan(true);
