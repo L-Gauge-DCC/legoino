@@ -392,7 +392,9 @@ void Lpf2HubEmulation::start()
   log_d("Starting BLE");
 
   NimBLEDevice::init(_hubName);
-  NimBLEDevice::setPower(ESP_PWR_LVL_P9, ESP_BLE_PWR_TYPE_ADV); // 9dB, Advertisment
+  NimBLEDevice::setPower(ESP_PWR_LVL_P9, ESP_BLE_PWR_TYPE_ADV);
+  NimBLEDevice::setPower(ESP_PWR_LVL_P9, ESP_BLE_PWR_TYPE_SCAN);
+  NimBLEDevice::setPower(ESP_PWR_LVL_P9, ESP_BLE_PWR_TYPE_DEFAULT); // 9dB, Advertisment
 
   log_d("Create server");
   _pServer = NimBLEDevice::createServer();
