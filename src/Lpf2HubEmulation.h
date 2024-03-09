@@ -58,6 +58,7 @@ public:
   Lpf2HubEmulation();
   Lpf2HubEmulation(std::string hubName, HubType hubType);
   void start();
+  void stop();
   void setWritePortCallback(WritePortCallback callback);
   void setHubRssi(int8_t rssi);
   void setHubBatteryLevel(uint8_t batteryLevel);

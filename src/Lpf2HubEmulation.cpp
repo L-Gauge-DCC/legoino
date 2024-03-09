@@ -387,6 +387,10 @@ void Lpf2HubEmulation::setHubHardwareVersion(Version version)
   _hardwareVersion = version;
 }
 
+void Lpf2HubEmulation::stop(){
+  NimBLEDevice::stopAdvertising();
+}
+
 void Lpf2HubEmulation::start()
 {
   log_d("Starting BLE");

@@ -16,10 +16,10 @@
  */
 void scanEndedCallback(NimBLEScanResults results)
 {
-    log_d("Number of devices: %d", results.getCount());
+    log_i("Number of devices: %d", results.getCount());
     for (int i = 0; i < results.getCount(); i++)
     {
-        log_d("device[%d]: %s", i, results.getDevice(i).toString().c_str());
+        log_i("device[%d]: %s", i, results.getDevice(i).toString().c_str());
     }
 }
 
@@ -75,7 +75,7 @@ public:
             advertisedDevice->getScan()->stop();
             _lpf2Hub->_pServerAddress = new BLEAddress(advertisedDevice->getAddress());
             _lpf2Hub->_hubName = advertisedDevice->getName();
-
+            log_i("advertised device: %s", advertisedDevice->getAddress().toString().c_str());
             if (advertisedDevice->haveManufacturerData())
             {
                 uint8_t *manufacturerData = (uint8_t *)advertisedDevice->getManufacturerData().data();
@@ -137,10 +137,12 @@ void Lpf2Hub::WriteValue(byte command[], int size)
  */
 void Lpf2Hub::registerPortDevice(byte portNumber, byte deviceType)
 {
-    log_d("port: %x, device type: %x", portNumber, deviceType);
+    log_i("port: %x, device type: %x numberOfConnectedDevices: %d", portNumber, deviceType, numberOfConnectedDevices);
     Device newDevice = {portNumber, deviceType, nullptr};
-    connectedDevices[numberOfConnectedDevices] = newDevice;
-    numberOfConnectedDevices++;
+    if (numberOfConnectedDevices < 13){
+        connectedDevices[numberOfConnectedDevices] = newDevice;
+        numberOfConnectedDevices++;
+    }
 }
 
 /**
@@ -777,6 +779,8 @@ void Lpf2Hub::notifyCallback(
 {
     log_d("heap free size: %i\n", heap_caps_get_free_size(MALLOC_CAP_INTERNAL|MALLOC_CAP_8BIT));
     log_d("notify callback for characteristic %s", pBLERemoteCharacteristic->getUUID().toString().c_str());
+    // log_i("characteristic: %p", (void*)(pBLERemoteCharacteristic));
+    // log_i("pData: %p, %p", (void*)pData, (void*)(pData+length));
 
     switch (pData[2])
     {
