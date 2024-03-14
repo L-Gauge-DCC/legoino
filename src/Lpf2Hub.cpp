@@ -17,10 +17,10 @@
 void scanEndedCallback(NimBLEScanResults results)
 {
     log_i("Number of devices: %d", results.getCount());
-    for (int i = 0; i < results.getCount(); i++)
-    {
-        log_i("device[%d]: %s", i, results.getDevice(i).toString().c_str());
-    }
+    // for (int i = 0; i < results.getCount(); i++)
+    // {
+    //     log_i("device[%d]: %s", i, results.getDevice(i).toString().c_str());
+    // }
 }
 
 /**

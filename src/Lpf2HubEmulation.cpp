@@ -388,7 +388,13 @@ void Lpf2HubEmulation::setHubHardwareVersion(Version version)
 }
 
 void Lpf2HubEmulation::stop(){
-  NimBLEDevice::stopAdvertising();
+  if (NimBLEDevice::stopAdvertising()){
+    _isRunning = false;
+  }
+}
+
+bool Lpf2HubEmulation::isRunning(){
+  return _isRunning;
 }
 
 void Lpf2HubEmulation::start()
@@ -468,7 +474,7 @@ void Lpf2HubEmulation::start()
   _pAdvertising->setScanResponseData(scanResponseData);
 
   log_d("Start advertising");
-  NimBLEDevice::startAdvertising();
+  _isRunning = NimBLEDevice::startAdvertising();
   log_d("Characteristic defined! Now you can connect with your PoweredUp App!");
 }
 

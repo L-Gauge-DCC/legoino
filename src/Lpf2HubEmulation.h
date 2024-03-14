@@ -49,6 +49,7 @@ private:
   HubType _hubType;
   Version _firmwareVersion;
   Version _hardwareVersion;
+  bool _isRunning;
 
     // List of connected devices
   PortDevice connectedDevices[13];
@@ -59,6 +60,7 @@ public:
   Lpf2HubEmulation(std::string hubName, HubType hubType);
   void start();
   void stop();
+  bool isRunning();
   void setWritePortCallback(WritePortCallback callback);
   void setHubRssi(int8_t rssi);
   void setHubBatteryLevel(uint8_t batteryLevel);
