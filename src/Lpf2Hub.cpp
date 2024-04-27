@@ -108,6 +108,11 @@ public:
                         _lpf2Hub->_hubType = HubType::UNKNOWNHUB;
                         break;
                     }
+                    if (_lpf2Hub->_requestedHubType != HubType::UNKNOWNHUB){
+                        if (_lpf2Hub->_requestedHubType != _lpf2Hub->_hubType){
+                            return;
+                        }
+                    }
                 }
             }
             _lpf2Hub->_isConnecting = true;
@@ -143,6 +148,10 @@ void Lpf2Hub::registerPortDevice(byte portNumber, byte deviceType)
         connectedDevices[numberOfConnectedDevices] = newDevice;
         numberOfConnectedDevices++;
     }
+}
+
+void Lpf2Hub::setRequestedHubType(HubType hubType){
+    _requestedHubType = hubType;
 }
 
 /**

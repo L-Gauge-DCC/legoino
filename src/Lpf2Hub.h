@@ -49,6 +49,7 @@ public:
   bool isScanning();
   NimBLEAddress getHubAddress();
   HubType getHubType();
+  void setRequestedHubType(HubType hubType);
   std::string getHubName();
   void setHubName(char name[]);
   void shutDownHub();
@@ -133,6 +134,7 @@ public:
   BLERemoteCharacteristic *_pRemoteCharacteristic;
   BLEScan *pBLEScan;
   HubType _hubType;
+  HubType _requestedHubType = HubType::UNKNOWNHUB;
   std::string _hubName;
   boolean _isConnecting;
   boolean _isConnected;
