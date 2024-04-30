@@ -397,6 +397,12 @@ bool Lpf2HubEmulation::isRunning(){
   return _isRunning;
 }
 
+void Lpf2HubEmulation::start(std::string deviceAddress)
+{
+  _requestedDeviceAddress = new BLEAddress(deviceAddress);
+  start();
+}
+
 void Lpf2HubEmulation::start()
 {
   log_d("Starting BLE");

@@ -23,11 +23,11 @@ byte LegoinoCommon::MapSpeed(int speed)
     }
     else if (speed > 0)
     {
-        rawSpeed = map(speed, 0, 100, 0, 126);
+        rawSpeed = map(speed, 0, 100, 0, 100);
     }
     else
     {
-        rawSpeed = map(-speed, 0, 100, 255, 128);
+        rawSpeed = map(-speed, 0, 100, 255, 156);
     }
     return rawSpeed;
 }

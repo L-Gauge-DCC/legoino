@@ -59,6 +59,7 @@ public:
   Lpf2HubEmulation();
   Lpf2HubEmulation(std::string hubName, HubType hubType);
   void start();
+  void start(std::string deviceAddress);
   void stop();
   bool isRunning();
   void setWritePortCallback(WritePortCallback callback);
@@ -86,6 +87,7 @@ public:
   bool isConnected = false;
   bool isPortInitialized = false;
   BLECharacteristic *pCharacteristic;
+  BLEAddress *_requestedDeviceAddress = nullptr;
   WritePortCallback writePortCallback = nullptr;
 
 };
