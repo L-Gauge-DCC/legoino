@@ -30,6 +30,10 @@ public:
   void onConnect(NimBLEServer *pServer)
   {
     log_d("Device connected");
+    NimBLEDevice::setPower(ESP_PWR_LVL_P9, ESP_BLE_PWR_TYPE_ADV);
+    NimBLEDevice::setPower(ESP_PWR_LVL_P9, ESP_BLE_PWR_TYPE_SCAN);
+    NimBLEDevice::setPower(ESP_PWR_LVL_P9, ESP_BLE_PWR_TYPE_DEFAULT); // 9dB, Advertisment
+
     _lpf2HubEmulation->isConnected = true;
   };
 

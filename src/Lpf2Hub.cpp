@@ -833,12 +833,12 @@ void Lpf2Hub::init()
     _charachteristicUuid = BLEUUID(LPF2_CHARACHTERISTIC);
     _hubType = HubType::UNKNOWNHUB;
 
-    BLEDevice::init("");
+    NimBLEDevice::init("");
     NimBLEDevice::setPower(ESP_PWR_LVL_P9, ESP_BLE_PWR_TYPE_ADV);
     NimBLEDevice::setPower(ESP_PWR_LVL_P9, ESP_BLE_PWR_TYPE_SCAN);
     NimBLEDevice::setPower(ESP_PWR_LVL_P9, ESP_BLE_PWR_TYPE_DEFAULT); // 9dB, Advertisment
     
-    pBLEScan = BLEDevice::getScan();
+    pBLEScan = NimBLEDevice::getScan();
     
     pBLEScan->setAdvertisedDeviceCallbacks(new Lpf2HubAdvertisedDeviceCallbacks(this));
 
@@ -1159,8 +1159,11 @@ bool Lpf2Hub::connectHub()
             return false;
         }
     }
+    NimBLEDevice::setPower(ESP_PWR_LVL_P9, ESP_BLE_PWR_TYPE_ADV);
+    NimBLEDevice::setPower(ESP_PWR_LVL_P9, ESP_BLE_PWR_TYPE_SCAN);
+    NimBLEDevice::setPower(ESP_PWR_LVL_P9, ESP_BLE_PWR_TYPE_DEFAULT); // 9dB, Advertisment
 
-    log_d("connected to: %s, RSSI: %d", pClient->getPeerAddress().toString().c_str(), pClient->getRssi());
+    log_i("connected to: %s, RSSI: %d", pClient->getPeerAddress().toString().c_str(), pClient->getRssi());
     BLERemoteService *pRemoteService = pClient->getService(_bleUuid);
     if (pRemoteService == nullptr)
     {
